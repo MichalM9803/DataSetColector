@@ -6,10 +6,10 @@ import com.mmencfel.dataSetColector.model.RecordEntity;
 class RecordValueMapper {
     private static final double MAX_COLOR_VALE = 255;
     private static final double FACTOR = 180;
-    private static final int MAP_FACTOR = (int) Math.floor(FACTOR / MAX_COLOR_VALE);
+    private static final double MAP_FACTOR =  FACTOR / MAX_COLOR_VALE;
 
-    static void map(RecordEntity recordEntity) {
-        mapColor(recordEntity);
+    static RecordEntity map(RecordEntity recordEntity) {
+        return mapColor(recordEntity);
     }
 
     private static RecordEntity mapColor(RecordEntity recordEntity) {
@@ -17,13 +17,17 @@ class RecordValueMapper {
                 .id(recordEntity.getId())
                 .sentence(recordEntity.getSentence())
                 .sentenceClass(recordEntity.getSentenceClass())
-                .redValue(recordEntity.getRedValue()*MAP_FACTOR)
-                .greenValue(recordEntity.getGreenValue()*MAP_FACTOR)
-                .blueValue(recordEntity.getBlueValue()*MAP_FACTOR)
+                .redValue(calculateNewColorValue(recordEntity.getRedValue()))
+                .greenValue(calculateNewColorValue(recordEntity.getGreenValue()))
+                .blueValue(calculateNewColorValue(recordEntity.getBlueValue()))
                 .place(recordEntity.getPlace())
                 .numberOfColorWorld(recordEntity.getNumberOfColorWorld())
                 .numberOfPlaceWorld(recordEntity.getNumberOfPlaceWorld())
                 .placeClass(recordEntity.getPlaceClass())
                 .build();
+    }
+
+    private static int calculateNewColorValue(int colorValue){
+        return  (int)Math.floor(colorValue*MAP_FACTOR);
     }
 }
