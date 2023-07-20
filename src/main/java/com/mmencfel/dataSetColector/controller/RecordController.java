@@ -1,14 +1,12 @@
 package com.mmencfel.dataSetColector.controller;
 
 
+import com.mmencfel.dataSetColector.filter.Filters;
 import com.mmencfel.dataSetColector.model.RecordEntity;
 import com.mmencfel.dataSetColector.service.RecordService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,8 +20,8 @@ public class RecordController {
     }
 
     @GetMapping("/record")
-    ResponseEntity<List<String>> getAllSentences(){
-        List<String> result = recordService.getAllSentences();
+    ResponseEntity<List<String>> getAllSentences(@RequestParam(name = "filter") Filters param){
+        List<String> result = recordService.getAllSentences(param);
         return ResponseEntity.ok(result);
     }
 
