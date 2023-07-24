@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data colector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #555;
+            padding: 0.5rem;
+            text-align: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+
+        section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 20px;
+            padding: 2rem;
+            text-align: left;
+        }
+
+        .left-column {
+            /* Styl dla lewej kolumny */
+        }
+
+        .right-column {
+            /* Styl dla prawej kolumny */
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Data set collector</h1>
+</header>
+<nav>
+    <a href="/sentenceSet">Zbiór zdań</a>
+    <a href="/mainPage">Wprowadzenie zdań</a>
+</nav>
+<section>
+    <div class="left-column">
+        <label for="sentence">Zdanie:</label>
+        <textarea id="sentence" name="sentence" cols="50" required="" style="font-size: inherit;font-family: inherit;" rows="3"></textarea>
+
+        <div>
+            <label for="sentenceClass">Klasa zdania:</label>
+            <input type="number" id="sentenceClass" name="sentenceClass" required="" style="font-size: inherit;font-family: inherit;">
+        </div>
+        <div>
+            <label for="redValue">Wartość czerwonego:</label>
+            <input type="number" id="redValue" name="redValue" required="" style="font-size: inherit;font-family: inherit;">
+        </div>
+        <div>
+            <label for="greenValue">Wartość zielonego:</label>
+            <input type="number" id="greenValue" name="greenValue" required="" style="font-size: inherit;font-family: inherit;">
+        </div>
+        <div>
+            <label for="blueValue">Wartość niebieskiego:</label>
+            <input type="number" id="blueValue" name="blueValue" required="" style="font-size: inherit;font-family: inherit;">
+        </div>
+        <div>
+            <label for="place">Miejsce:</label>
+            <input type="text" id="place" name="place" required="" style="font-size: inherit;font-family: inherit;">
+        </div>
+        <div>
+            <label for="numberOfColorWorld">Numer słowa koloru:</label>
+            <input type="number" id="numberOfColorWorld" name="numberOfColorWorld" required="" style="font-size: inherit;font-family: inherit;">
+        </div>
+        <div>
+            <label for="numberOfPlaceWorld">Numer słowa miejsca:</label>
+            <input type="number" id="numberOfPlaceWorld" name="numberOfPlaceWorld" required="" style="font-size: inherit;font-family: inherit;">
+        </div>
+        <div>
+            <label for="placeClass">Klasa miejsca:</label>
+            <input type="number" id="placeClass" name="placeClass" required="" style="font-size: inherit;font-family: inherit;">
+        </div>
+    </div>
+    <div class="right-column">
+        <br> INSTRUKCJA: </br>
+        <p>1.Wartości kolorów z zakresu 0-255</p>
+        <p>2.Klasa zdania to wartość liczbowa. 0 - dla inne, 1- dla LED</p>
+        <p>3.Mejsce: Zwyczajnie słownie na przykład "balkon"</p>
+        <p>4.Klasa mejsca: Należy sobie zapisać i być konswantynm. Na przykład że BALKON to 1</p>
+        <p>5.Numer słowa, Numerowany od 1 do N</p>
+
+
+
+    </div>
+
+
+    <div style="display: grid;align-items: end;">
+        <button id="submit" type="submit" style="font-size: larger;font-family: inherit;text-align: center;width: fit-content;">Wyślij</button>
+    </div>
+
+</section>
+<footer>
+    <p>©All rights reserved.</p>
+</footer>
+
+<script>
+    document.querySelector('#submit').addEventListener('click', event => {
+        event.preventDefault();
+        var data = {
+            sentence:  document.getElementById('sentence').value,
+            sentenceClass: document.getElementById('sentenceClass').value,
+            redValue: document.getElementById('redValue').value,
+            greenValue: document.getElementById('greenValue').value,
+            blueValue: document.getElementById('blueValue').value,
+            place: document.getElementById('place').value,
+            numberOfColorWorld: document.getElementById('numberOfColorWorld').value,
+            numberOfPlaceWorld: document.getElementById('numberOfPlaceWorld').value,
+            placeClass: document.getElementById('placeClass').value,
+        };
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/record');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 201) {
+                    alert('Wysłano pomyślnie');
+                } else {
+                    alert('Wystąpił jakiś błąd ' + xhr.status);
+                }
+                location.reload();
+            }
+        };
+
+        xhr.send(JSON.stringify(data));
+    });
+</script>
+</body>
+</html>

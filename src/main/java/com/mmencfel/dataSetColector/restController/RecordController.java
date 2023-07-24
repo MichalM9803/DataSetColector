@@ -1,4 +1,4 @@
-package com.mmencfel.dataSetColector.controller;
+package com.mmencfel.dataSetColector.restController;
 
 
 import com.mmencfel.dataSetColector.filter.Filters;
