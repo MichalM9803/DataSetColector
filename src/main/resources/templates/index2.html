@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data colector</title>
+    <title>Data collector</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -47,7 +47,7 @@
 
 <body>
 <header>
-    <h1>Set of Sentances</h1>
+    <h1>Set of Sentences</h1>
 </header>
 
 <nav>
@@ -56,11 +56,58 @@
 </nav>
 
 <section>
+    <div id="sentencesContainer">
+        <!-- Tutaj będą wyświetlane dane z endpointu -->
+    </div>
 </section>
 
 <footer>
-    <p>&copy;All rights reserved.</p>
+    <p>&copy; All rights reserved.</p>
 </footer>
+
+<script>
+    async function getAllSentences(filter) {
+        try {
+            const url = `/record?filter=${encodeURIComponent(filter)}`;
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error:', error);
+            return null;
+        }
+    }
+
+    function displayData(data) {
+        const sentencesContainer = document.getElementById('sentencesContainer');
+
+        if (data && data.length > 0) {
+            const sentenceList = document.createElement('ul');
+
+            data.forEach(sentence => {
+                const listItem = document.createElement('li');
+                listItem.textContent = sentence;
+                sentenceList.appendChild(listItem);
+            });
+
+            sentencesContainer.appendChild(sentenceList);
+        } else {
+            sentencesContainer.textContent = 'Brak zdań do wyświetlenia.';
+        }
+    }
+
+    const filterValue = "your_filter_value_here";
+    getAllSentences(filterValue)
+        .then((data) => {
+            displayData(data);
+        })
+        .catch((error) => console.error('Error:', error));
+</script>
 </body>
 
 </html>
