@@ -6,6 +6,3 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: root
-
-server:
-  port: 8090
